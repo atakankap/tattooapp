@@ -264,7 +264,6 @@ export const ArtistProfileScreen = ({ route, navigation }: ArtistProfileScreenPr
 
   return (
     <View style={styles.container}>
-      {/* Message Modal */}
       <Modal
         animationType="slide"
         transparent={true}
@@ -295,32 +294,9 @@ export const ArtistProfileScreen = ({ route, navigation }: ArtistProfileScreenPr
           </View>
         </View>
       </Modal>
-      
-      {/* Cover Image and Back Button */}
-
       <ScrollView>
-        <Image source={{ uri: artist.coverImageUrl }} style={styles.coverImage} />
-        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-          <Ionicons name="chevron-back" size={24} color={COLORS.white} />
-        </TouchableOpacity>
-        <View
-          style={{ position: 'absolute', top: SPACING.lg, right: SPACING.md, flexDirection: 'row' }}
-        >
-          <TouchableOpacity
-            style={[styles.messageButton, { marginRight: 8 }]}
-            onPress={() => setMessageModalVisible(true)}
-          >
-            <Ionicons name="chatbubble-ellipses-outline" size={24} color={COLORS.white} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.messageButton, { backgroundColor: COLORS.secondary }]}
-            onPress={() => navigation.navigate('Appointment', { tattooId: artist.id })}
-          >
-            <Ionicons name="calendar-outline" size={24} color={COLORS.white} />
-          </TouchableOpacity>
-        </View>
         <View style={styles.profileHeader}>
-          <Image source={{ uri: artist.imageUrl }} style={styles.profileImage} />
+          <Image source={artist.imageUrl} style={styles.profileImage} />
           <View style={styles.headerInfo}>
             <Text style={styles.artistName}>{artist.name}</Text>
             <Text style={styles.studioName}>{artist.studio}</Text>
@@ -330,7 +306,6 @@ export const ArtistProfileScreen = ({ route, navigation }: ArtistProfileScreenPr
             </View>
           </View>
         </View>
-
         <View style={styles.statsContainer}>
           <View style={styles.stat}>
             <Text style={styles.statNumber}>{artist.tattooCount}</Text>
@@ -345,15 +320,12 @@ export const ArtistProfileScreen = ({ route, navigation }: ArtistProfileScreenPr
             <Text style={styles.statLabel}>Followers</Text>
           </View>
         </View>
-
         <View style={styles.tabContainer}>
           <TouchableOpacity
             style={[styles.tab, activeTab === 'gallery' && styles.activeTab]}
             onPress={() => setActiveTab('gallery')}
           >
-            <Text style={[styles.tabText, activeTab === 'gallery' && styles.activeTabText]}>
-              Gallery
-            </Text>
+            <Text style={[styles.tabText, activeTab === 'gallery' && styles.activeTabText]}>Gallery</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.tab, activeTab === 'info' && styles.activeTab]}
@@ -365,12 +337,9 @@ export const ArtistProfileScreen = ({ route, navigation }: ArtistProfileScreenPr
             style={[styles.tab, activeTab === 'reviews' && styles.activeTab]}
             onPress={() => setActiveTab('reviews')}
           >
-            <Text style={[styles.tabText, activeTab === 'reviews' && styles.activeTabText]}>
-              Reviews
-            </Text>
+            <Text style={[styles.tabText, activeTab === 'reviews' && styles.activeTabText]}>Reviews</Text>
           </TouchableOpacity>
         </View>
-
         {activeTab === 'gallery' && (
           <FlatList
             data={artist.gallery}
@@ -381,7 +350,6 @@ export const ArtistProfileScreen = ({ route, navigation }: ArtistProfileScreenPr
             contentContainerStyle={styles.galleryContainer}
           />
         )}
-
         {activeTab === 'info' && (
           <View style={styles.infoContainer}>
             <View style={styles.infoSection}>
@@ -409,37 +377,26 @@ export const ArtistProfileScreen = ({ route, navigation }: ArtistProfileScreenPr
             </View>
             <View style={styles.infoSection}>
               <Text style={styles.infoTitle}>Location on Map</Text>
-              <View
-                style={{
-                  width: '100%',
-                  height: 180,
-                  borderRadius: 12,
-                  overflow: 'hidden',
-                  marginTop: 8,
-                }}
-              >
-                {/* MapView native için, web ise bir placeholder */}
-                {typeof window === 'undefined' ? (
-                  <></>
-                ) : (
-                  <Text style={{ color: '#888' }}>Map is available on mobile.</Text>
-                )}
-                {/* React Native MapView ile mobilde aşağıdaki kodu kullanabilirsiniz:
-                <MapView
-                  style={{ flex: 1 }}
-                  initialRegion={{
-                    latitude: artist.coordinates.latitude,
-                    longitude: artist.coordinates.longitude,
-                    latitudeDelta: 0.01,
-                    longitudeDelta: 0.01,
-                  }}
-                  scrollEnabled={false}
-                  zoomEnabled={false}
-                >
-                  <Marker coordinate={artist.coordinates} />
-                </MapView>
-                */}
-              </View>
+              <View style={{ width: '100%', height: 180, borderRadius: 12, overflow: 'hidden', marginTop: 8 }}>
+  {typeof window === 'undefined' ? null : (
+    <Text style={{ color: '#888', textAlign: 'center', marginTop: 70 }}>Map is available on mobile.</Text>
+  )}
+  {/* React Native MapView ile mobilde aşağıdaki kodu kullanabilirsiniz:
+  <MapView
+    style={{ flex: 1 }}
+    initialRegion={{
+      latitude: artist.coordinates.latitude,
+      longitude: artist.coordinates.longitude,
+      latitudeDelta: 0.01,
+      longitudeDelta: 0.01,
+    }}
+    scrollEnabled={false}
+    zoomEnabled={false}
+  >
+    <Marker coordinate={artist.coordinates} />
+  </MapView>
+  */}
+</View>
             </View>
             <View style={styles.infoSection}>
               <Text style={styles.infoTitle}>Price Range</Text>
@@ -464,7 +421,7 @@ export const ArtistProfileScreen = ({ route, navigation }: ArtistProfileScreenPr
         )}
       </ScrollView>
 
-      <TouchableOpacity style={styles.bookButton}>
+      <TouchableOpacity style={styles.bookButton} onPress={() => navigation.navigate('Appointment', { tattooId: artist?.id })}>
         <Text style={styles.bookButtonText}>Book Appointment</Text>
       </TouchableOpacity>
     </View>
@@ -477,6 +434,39 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    borderRadius: 16,
+    padding: 24,
+    width: '85%',
+    alignItems: 'stretch',
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 12,
+    textAlign: 'center',
+  },
+  messageInput: {
+    minHeight: 80,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 16,
+    textAlignVertical: 'top',
+    fontSize: 16,
+  },
+  modalButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   loadingText: {
     marginTop: 10,
@@ -699,3 +689,4 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
 });
+

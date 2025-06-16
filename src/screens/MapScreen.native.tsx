@@ -20,7 +20,7 @@ import { Animated, Image } from 'react-native';
 import { useEffect } from 'react';
 import MapView, { Marker, Region } from 'react-native-maps';
 import { StudioMarker } from '../components/StudioMarker';
-import { DebugPanel } from '../components/DebugPanel';
+
 
 interface Studio {
   imageUrl?: string;
@@ -372,7 +372,7 @@ export const MapScreen = () => {
         </View>
       </Modal>
       {/* Debug Panel - sadece geliştirme/test için */}
-      <DebugPanel />
+      
     </SafeAreaView>
   );
 };

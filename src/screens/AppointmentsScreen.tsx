@@ -160,7 +160,7 @@ const AppointmentsList = ({ navigation }: any) => {
             </TouchableOpacity>
             <TouchableOpacity 
               style={styles.footerButton}
-              onPress={() => navigation.navigate('Map', { coordinates: item.coordinates })}
+              onPress={() => navigation.navigate('MainTabs', { screen: 'Map', params: { coordinates: item.coordinates } })}
             >
               <Ionicons name="navigate" size={16} color={COLORS.primary} />
               <Text style={styles.buttonText}>Directions</Text>

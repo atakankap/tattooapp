@@ -17,6 +17,7 @@ import { AppointmentDetailScreen } from '../screens/AppointmentDetailScreen';
 import { EditProfileScreen } from '../screens/EditProfileScreen';
 import { NotificationSettingsScreen } from '../screens/NotificationSettingsScreen';
 import { PrivacySettingsScreen } from '../screens/PrivacySettingsScreen';
+import { LoginScreen } from '../screens/LoginScreen';
 
 type TabParamList = {
   Discover: undefined;
@@ -26,6 +27,7 @@ type TabParamList = {
 };
 
 type RootStackParamList = {
+  Login: undefined;
   MainTabs: undefined;
   TattooDetail: { id: string };
   ArtistProfile: { id: string };
@@ -76,10 +78,12 @@ const TabNavigator = () => {
 export const AppNavigator = () => {
   return (
     <Stack.Navigator
+      initialRouteName="Login"
       screenOptions={{
         headerShown: false,
       }}
     >
+      <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="MainTabs" component={TabNavigator} />
       <Stack.Screen name="TattooDetail" component={TattooDetailScreen} />
       <Stack.Screen name="ArtistProfile" component={ArtistProfileScreen} />

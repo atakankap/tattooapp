@@ -107,6 +107,8 @@ const mockStudios: Studio[] = [
   },
 ];
 
+import { useRoute } from '@react-navigation/native';
+
 export const MapScreen = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ['25%', '50%', '75%'], []);
@@ -114,12 +116,26 @@ export const MapScreen = () => {
     console.log('handleSheetChanges', index);
   }, []);
   const [selectedStudio, setSelectedStudio] = useState<Studio | null>(null);
+  const route = useRoute();
   const [region, setRegion] = useState<any>({
     latitude: 52.2297,
     longitude: 21.0122,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
+
+  // Center map if coordinates are passed in navigation params
+  React.useEffect(() => {
+    // @ts-ignore
+    const coordinates = route.params?.coordinates;
+    if (coordinates && coordinates.latitude && coordinates.longitude) {
+      setRegion((prev: any) => ({
+        ...prev,
+        latitude: coordinates.latitude,
+        longitude: coordinates.longitude,
+      }));
+    }
+  }, [route.params]);
   const [filterVisible, setFilterVisible] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');

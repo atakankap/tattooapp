@@ -1,56 +1,115 @@
 # TattooApp
 
-## Proje Hakkında
+A modern cross-platform mobile application for discovering tattoo studios, browsing artist portfolios, saving favorite tattoos, and booking appointments. Built with React Native (Expo), Redux Toolkit, and best practices for scalability, security, and offline support.
 
-TattooApp, React Native (Expo) ile geliştirilmiş, dövme stüdyolarını haritada bulabileceğiniz, favori dövmeleri kaydedebileceğiniz ve çeşitli filtrelerle arama yapabileceğiniz modern bir mobil uygulamadır.
+---
 
-## Kullanılan Teknolojiler
+## Table of Contents
+- [Overview](#overview)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Architecture](#architecture)
+- [Folder Structure](#folder-structure)
+- [State Management](#state-management)
+- [Native Features](#native-features)
+- [Responsiveness](#responsiveness)
+- [Offline Mode](#offline-mode)
+- [Error Handling](#error-handling)
+- [Security](#security)
+- [Testing](#testing)
+- [Code Quality](#code-quality)
+- [Build & Deployment](#build--deployment)
+- [Contributing](#contributing)
+- [License](#license)
 
-- React Native (TypeScript)
-- Expo
-- Redux (Global State Management)
-- React Navigation
-- AsyncStorage (Favori dövmeleri kaydetmek için)
-- Jest & React Native Testing Library (Birim testleri)
-- react-native-safe-area-context
-- Harita: react-native-maps
+---
 
-## Kurulum
+## Overview
+TattooApp helps users find tattoo studios, explore artists and their portfolios, save favorite tattoos, and book appointments. The app is designed to be robust, secure, and user-friendly across all iOS and Android devices.
 
-1. Repoyu klonlayın:
-   ```sh
-   git clone <repo-url>
-   cd tattooapp-ts
-   ```
-2. Bağımlılıkları yükleyin:
-   ```sh
-   npm install
-   ```
-3. Uygulamayı başlatın:
-   ```sh
-   npm start
-   ```
-4. Expo Go ile QR kodu okutun veya emülatörde çalıştırın.
+## Features
+- Find and view tattoo studios on a map (Geolocation)
+- Browse artist profiles, galleries, and reviews
+- Save favorite tattoos and artists
+- Book appointments with artists
+- Push notifications (Expo Notifications)
+- Securely store sensitive data (Expo SecureStore)
+- Offline support for favorites and user settings
+- Responsive UI for all screen sizes and orientations
+- Error boundaries and user-friendly error messages
+- Unit tests for logic and components
 
-## Proje Mimarisi
+## Tech Stack
+- **React Native (TypeScript, Expo)**
+- **Redux Toolkit** (state management)
+- **React Navigation** (screen navigation)
+- **AsyncStorage & SecureStore** (data storage)
+- **Jest & React Native Testing Library** (testing)
+- **ESLint & Prettier** (code quality)
+- **Expo Location, Notifications, SecureStore** (native modules)
 
-- **Redux** ile global state yönetimi yapılır. (Favoriler, dövme listesi, kullanıcı ayarları vs.)
-- **React Navigation** ile ekranlar arası geçiş sağlanır.
-- **AsyncStorage** ile favori dövmeler kalıcı olarak saklanır.
-- Kodlar `src/` klasöründe organize edilmiştir: `screens/`, `components/`, `store/`, `constants/`.
+## Architecture
+- Modular codebase: `src/screens/`, `src/components/`, `src/store/`, `src/constants/`, `src/utils/`
+- **Redux Toolkit** for global state (favorites, tattoos, user config)
+- **React Navigation** for screen transitions and parameter passing
+- **AsyncStorage & SecureStore** for persistent and secure data
+- **ErrorBoundary** component for catching rendering errors
 
-## Native Özellikler
+## Folder Structure
+```
+tattooapp-ts/
+├── src/
+│   ├── components/         # Reusable UI components (e.g. ErrorBoundary)
+│   ├── screens/            # App screens (e.g. ArtistProfileScreen)
+│   ├── store/              # Redux slices and store config
+│   ├── utils/              # Utility functions (e.g. secureStore)
+│   ├── constants/          # Colors, spacing, etc.
+│   └── ...
+├── __tests__/              # Unit and integration tests
+├── assets/                 # Images and static assets
+├── App.tsx                 # App entry point
+├── package.json            # Project config and scripts
+├── .eslintrc.js            # ESLint config
+├── .prettierrc             # Prettier config
+└── README.md               # Project documentation
+```
 
-- **Konum (Geolocation):** Harita üzerinde stüdyoları göstermek için kullanılır.
-- **AsyncStorage:** Favori dövmeleri cihazda kalıcı olarak saklamak için kullanılır.
-- **SecureStore:** Hassas verileri (örn. kullanıcı token) güvenli bir şekilde saklamak için kullanılır.
+## State Management
+- **Redux Toolkit** is used for predictable, scalable global state management.
+- State slices: tattoos, favorites, user config, etc.
+- Async logic (e.g. API calls) handled with thunks.
+- **Redux Persist** can be used for offline state.
 
-## Test
+## Native Features
+- **Geolocation:** Show studios on a map (Expo Location)
+- **AsyncStorage:** Save favorites and user settings
+- **SecureStore:** Securely store sensitive data (e.g., tokens)
+- **Push Notifications:** Notify users about bookings (Expo Notifications)
 
-- Testler `__tests__` klasöründe yer alır.
-- Jest and React Native Testing Library are set up for unit tests.
-- Coverage for Redux logic, SecureStore utils, and persist logic.
-- Example tests for Redux slice, SecureStore, and UI components included.
+## Responsiveness
+- Layouts built with Flexbox and `Dimensions` API
+- Styles use relative units and safe area insets
+- Tested on multiple screen sizes and orientations
+
+## Offline Mode
+- Favorites and user data are stored offline using AsyncStorage
+- App remains usable without internet for browsing and managing favorites
+- Data automatically syncs when connection is restored
+
+## Error Handling
+- All async operations and API calls use `try/catch` blocks
+- User-friendly error messages via `Alert`
+- **ErrorBoundary** component displays fallback UI on render errors
+
+## Security
+- Sensitive data is stored with Expo SecureStore
+- Input validation and secure API communication
+- See `src/utils/secureStore.ts` for example usage
+
+## Testing
+- **Jest** and **React Native Testing Library** are set up
+- Tests are in the `__tests__/` folder
+- Example tests for Redux logic, SecureStore utils, and UI components
 
 To run tests:
 ```sh
@@ -62,40 +121,144 @@ To view coverage:
 npm test -- --coverage
 ```
 
-## Offline Mod
-
-- Favori dövmeler ve son çekilen dövme listesi internet olmasa da cihazda saklanır.
-- Redux Persist ile global state offline tutulur.
-- App works offline for browsing and managing favorites.
-- User profile and all tattoos state are stored offline (Redux Persist).
-
-## Hata Yönetimi
-
-- API isteklerinde ve kritik işlemlerde try/catch ile hata yakalama ve kullanıcıya bildirim gösterme uygulanır.
-- Error handling for API requests and critical operations.
-
-## Güvenlik
-
-- Hassas veriler (örn. kullanıcı token) ileride SecureStore ile saklanabilir.
-- Input validation ve güvenli API bağlantısı sağlanır (geliştirilecek).
+## Code Quality
+- Code is formatted with **Prettier** and checked with **ESLint**
+- TypeScript ensures type safety and readability
 
 ## Build & Deployment
-
-- Android için APK oluşturmak:
+- Build Android APK:
   ```sh
   eas build -p android --profile preview
   ```
-- iOS için IPA oluşturmak:
+- Build iOS IPA:
   ```sh
   eas build -p ios --profile preview
   ```
-- Daha fazla bilgi için: https://docs.expo.dev/build/introduction/
+- See [Expo Build Docs](https://docs.expo.dev/build/introduction/) for more info
 
-## Katkı ve Lisans
+## Contributing
+- Open to contributions! Please open a PR for improvements
+- Follow code style guidelines and write tests for new features
 
-- Proje açık kaynak olarak geliştirilmektedir.
-- Katkı yapmak için PR gönderebilirsiniz.
+## License
+MIT License
 
 ---
 
-Her türlü soru ve katkı için iletişime geçebilirsiniz!
+For any questions or feedback, feel free to contact the maintainer.
+
+
+A modern mobile app built with React Native (Expo) for discovering tattoo studios, saving favorite tattoos, and exploring artists on a map. The app is designed with best practices in architecture, state management, testing, and security.
+
+---
+
+## Table of Contents
+- [Project Overview](#project-overview)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Architecture & State Management](#architecture--state-management)
+- [Responsiveness](#responsiveness)
+- [Native Device Features](#native-device-features)
+- [Offline Mode](#offline-mode)
+- [Error Handling](#error-handling)
+- [Security](#security)
+- [Testing](#testing)
+- [Code Quality](#code-quality)
+- [Build & Deployment](#build--deployment)
+- [Contributing & License](#contributing--license)
+
+---
+
+## Project Overview
+TattooApp is a cross-platform mobile app that helps users find tattoo studios, browse artist portfolios, and manage their favorite tattoos. The app supports offline mode, secure data storage, and leverages native device features for a seamless experience.
+
+## Features
+- Find tattoo studios on a map (Geolocation)
+- Browse artist profiles and galleries
+- Save favorite tattoos (AsyncStorage)
+- Book appointments with artists
+- Push notifications (Expo Notifications)
+- Securely store sensitive data (Expo SecureStore)
+- Offline support for favorites and user config
+- Responsive UI for all screen sizes
+- Error boundaries and user-friendly error messages
+- Unit tests for logic and components
+
+## Tech Stack
+- **React Native (TypeScript, Expo)**
+- **Redux Toolkit** (global state management)
+- **React Navigation** (screen navigation)
+- **AsyncStorage & SecureStore** (data storage)
+- **Jest & React Native Testing Library** (testing)
+- **ESLint & Prettier** (code quality)
+
+## Architecture & State Management
+- **Redux Toolkit** is used for global state (favorites, tattoos, user config) for predictability and scalability.
+- **React Navigation** manages screen transitions and parameter passing.
+- **AsyncStorage & SecureStore** persist user data and sensitive info.
+- Code is modular: `src/screens/`, `src/components/`, `src/store/`, `src/constants/`, `src/utils/`.
+
+## Responsiveness
+- Flexbox layouts and the `Dimensions` API ensure the app looks good on all devices and orientations.
+- Styles use relative units, percentages, and safe area insets for notched devices.
+
+## Native Device Features
+- **Geolocation:** Shows studios on the map.
+- **AsyncStorage:** Saves favorites and user settings.
+- **SecureStore:** Stores sensitive data (e.g., user tokens) securely.
+- **Push Notifications:** (via Expo Notifications)
+
+## Offline Mode
+- Favorites and user data are stored offline using AsyncStorage and Redux Persist.
+- The app remains usable without an internet connection for browsing and managing favorites.
+- Data syncs when connection is restored.
+
+## Error Handling
+- All async operations and API calls use `try/catch` blocks.
+- User-friendly error messages via `Alert`.
+- Error boundaries catch rendering errors and display fallback UI.
+
+## Security
+- Sensitive data is stored with Expo SecureStore.
+- Input validation and secure API communication are implemented.
+- See `src/utils/secureStore.ts` for usage.
+
+## Testing
+- **Jest** and **React Native Testing Library** are set up.
+- Tests are in the `__tests__/` folder.
+- Example tests cover Redux logic, SecureStore utils, and UI components.
+
+Run tests:
+```sh
+npm test
+```
+
+View coverage:
+```sh
+npm test -- --coverage
+```
+
+## Code Quality
+- Code is formatted with **Prettier** and checked with **ESLint**.
+- TypeScript ensures type safety and readability.
+
+## Build & Deployment
+- Build Android APK:
+  ```sh
+  eas build -p android --profile preview
+  ```
+- Build iOS IPA:
+  ```sh
+  eas build -p ios --profile preview
+  ```
+- See [Expo Build Docs](https://docs.expo.dev/build/introduction/) for more info.
+
+## Contributing & License
+- Open to contributions! Please open a PR for improvements.
+- MIT License.
+
+---
+
+For any questions or feedback, feel free to contact the maintainer.
+
+
